@@ -18,7 +18,7 @@ for _ in range(1000):
 
 # Convert to DataFrame and save as CSV
 df = pd.DataFrame(data, columns=["Year", "Month", "Route", "Num_Trips", "Passengers"])
-csv_filename = "/opt/airflow/dags/bus_travel_data.csv"
+csv_filename = "bus_travel_data.csv"
 df.to_csv(csv_filename, index=False)
 
 print(f"CSV file '{csv_filename}' generated with {len(df)} records.")
