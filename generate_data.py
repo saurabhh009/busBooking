@@ -1,20 +1,24 @@
 import pandas as pd
 import random
-from datetime import datetime, timedelta
 
-def generate_booking_data(num_records):
-    bus_ids = [f'Bus_{i}' for i in range(1, 21)]  # 20 buses
-    routes = [f'Route_{i}' for i in range(1, 11)]  # 10 routes
-    data = []
+# Define 20 routes and months
+routes = [f"Route {i}" for i in range(1, 21)]
+years = [2021, 2022, 2023]
+months = list(range(1, 13))  # 1 to 12 (January to December)
 
-    for _ in range(num_records):
-        booking_time = datetime.now() - timedelta(days=random.randint(0, 30))
-        bus_id = random.choice(bus_ids)
-        route = random.choice(routes)
-        passengers_count = random.randint(1, 50)  # Random passenger count
-        data.append((booking_time, bus_id, route, passengers_count))
+data = []
 
-    df = pd.DataFrame(data, columns=['booking_time', 'bus_id', 'route', 'passengers_count'])
-    df.to_csv('bus_bookings.csv', index=False)
+for _ in range(1000):
+    year = random.choice(years)
+    month = random.choice(months)
+    route = random.choice(routes)
+    num_trips = random.randint(100, 1000)
+    passengers = num_trips * random.randint(20, 50)
+    data.append([year, month, route, num_trips, passengers])
 
-generate_booking_data(1000)  # Generate 1000 records
+# Convert to DataFrame and save as CSV
+df = pd.DataFrame(data, columns=["Year", "Month", "Route", "Num_Trips", "Passengers"])
+csv_filename = "/opt/airflow/dags/bus_travel_data.csv"
+df.to_csv(csv_filename, index=False)
+
+print(f"CSV file '{csv_filename}' generated with {len(df)} records.")
