@@ -22,14 +22,14 @@ dag = DAG(
 # Task 1: Generate Bus Travel Data
 generate_csv = BashOperator(
     task_id='generate_csv',
-    bash_command='python3 /opt/airflow/dags/bus_travel_generator.py',
+    bash_command='python3 bus_travel_generator.py',
     dag=dag,
 )
 
 # Task 2: Process CSV with PySpark
 process_data = BashOperator(
     task_id='process_data',
-    bash_command='spark-submit /opt/airflow/dags/bus_travel_analysis.py',
+    bash_command='spark-submit bus_travel_analysis.py',
     dag=dag,
 )
 

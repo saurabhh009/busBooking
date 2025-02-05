@@ -6,7 +6,7 @@ from pyspark.sql.window import Window
 spark = SparkSession.builder.appName("Bus Travel Analysis").getOrCreate()
 
 # Load CSV data
-csv_filename = "/opt/airflow/dags/bus_travel_data.csv"
+csv_filename = "bus_travel_data.csv"
 df = spark.read.csv(csv_filename, header=True, inferSchema=True)
 
 # Aggregate total passengers per route per month
@@ -30,8 +30,8 @@ ranked_route_df = agg_route_df.withColumn("rank", rank().over(windowSpecRoute))
 top_routes_per_month = ranked_route_df.filter(col("rank") == 1).drop("rank")
 
 # Save both insights as CSV
-output_top_months = "/opt/airflow/dags/bus_travel_top_months.csv"
-output_top_routes = "/opt/airflow/dags/bus_travel_top_routes.csv"
+output_top_months = "bus_travel_top_months.csv"
+output_top_routes = "bus_travel_top_routes.csv"
 
 top_months_per_route.toPandas().to_csv(output_top_months, index=False)
 top_routes_per_month.toPandas().to_csv(output_top_routes, index=False)
